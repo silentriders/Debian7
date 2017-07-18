@@ -15,4 +15,4 @@ JUMLAH="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)
 echo "-------------------------------"
 echo "Jumlah akun: $JUMLAH user"
 echo "-------------------------------"
-echo -e "Mod by Aiman Amir"
+echo -e "Mod by SilentRider"
