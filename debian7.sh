@@ -36,7 +36,7 @@ sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 service ssh restart
 
 # set repo
-wget -O /etc/apt/sources.list "https://raw.github.com/blazevpn/autoscript/master/sources.list.debian7"
+wget -O /etc/apt/sources.list "https://raw.github.com/silentriders/Debian7/master/sources.list.debian7"
 wget "http://www.dotdeb.org/dotdeb.gpg"
 wget "http://www.webmin.com/jcameron-key.asc"
 cat dotdeb.gpg | apt-key add -;rm dotdeb.gpg
@@ -64,45 +64,45 @@ apt-get install figlet
 echo "clear" >> .bashrc
 echo 'figlet -k "$HOSTNAME"' >> .bashrc
 echo 'echo -e "Selamat datang ke server $HOSTNAME"' >> .bashrc
-echo 'echo -e "Script mod by Aiman Amir"' >> .bashrc
-echo 'echo -e "Taip menu untuk menampilkan senarai perintah yang tersedia"' >> .bashrc
+echo 'echo -e "Script mod by SilentRider"' >> .bashrc
+echo 'echo -e "Tulis menu untuk menampilkan daftar perintah yang tersedia"' >> .bashrc
 echo 'echo -e ""' >> .bashrc
 
 # install webserver
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.github.com/blazevpn/autoscript/master/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.github.com/silentriders/Debian7/master/nginx.conf"
 mkdir -p /home/vps/public_html
-echo "<pre>Setup by Aiman Amir | 081515292117</pre>" > /home/vps/public_html/index.html
-wget -O /etc/nginx/conf.d/vps.conf "https://github.com/blazevpn/autoscript/blob/master/vps.conf"
+echo "<pre>Setup by SilentRider | 081515292117</pre>" > /home/vps/public_html/index.html
+wget -O /etc/nginx/conf.d/vps.conf "https://github.com/silentriders/Debian7/blob/master/vps.conf"
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.github.com/blazevpn/autoscript/master/openvpn-debian.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.github.com/silentriders/Debian7/master/openvpn-debian.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "https://raw.github.com/blazevpn/autoscript/master/1194.conf"
+wget -O /etc/openvpn/1194.conf "https://raw.github.com/silentriders/Debian7/master/1194.conf"
 service openvpn restart
 sysctl -w net.ipv4.ip_forward=1
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 iptables -t nat -I POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 iptables-save > /etc/iptables_yg_baru_dibikin.conf
-wget -O /etc/network/if-up.d/iptables "https://raw.github.com/blazevpn/autoscript/master/iptables"
+wget -O /etc/network/if-up.d/iptables "https://raw.github.com/silentriders/Debian7/master/iptables"
 chmod +x /etc/network/if-up.d/iptables
 service openvpn restart
 
 # konfigurasi openvpn
 cd /etc/openvpn/
-wget -O /etc/openvpn/client.ovpn "https://raw.github.com/blazevpn/autoscript/master/client-1194.conf"
+wget -O /etc/openvpn/client.ovpn "https://raw.github.com/silentriders/Debian7/master/client-1194.conf"
 sed -i $MYIP2 /etc/openvpn/client.ovpn;
 cp client.ovpn /home/vps/public_html/
 
 cd
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/blazevpn/autoscript/master/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/silentriders/Debian7/master/badvpn-udpgw"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/blazevpn/autoscript/master/badvpn-udpgw"
+  wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/silentriders/Debian7/master/badvpn-udpgw"
 fi
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
@@ -130,7 +130,7 @@ apt-get -y install fail2ban;service fail2ban restart
 
 # install squid3
 apt-get -y install squid3
-wget -O /etc/squid3/squid.conf "https://raw.github.com/blazevpn/autoscript/master/squid3.conf"
+wget -O /etc/squid3/squid.conf "https://raw.github.com/silentriders/Debian7/master/squid3.conf"
 sed -i $MYIP2 /etc/squid3/squid.conf;
 service squid3 restart
 
@@ -144,15 +144,15 @@ service webmin restart
 
 # download script
 cd /usr/bin
-wget -O menu "https://github.com/blazevpn/autoscript/master/menu.sh"
-wget -O usernew "https://raw.github.com/blazevpn/autoscript/master/usernew.sh"
-wget -O trial "https://raw.github.com/blazevpn/autoscript/master/trial.sh"
-wget -O hapus "https://raw.github.com/blazevpn/autoscript/master/hapus.sh"
-wget -O login "https://raw.github.com/blazevpn/autoscript/master/user-login.sh"
-wget -O member "https://raw.github.com/blazevpn/autoscript/master/user-list.sh"
-wget -O resvis "https://raw.github.com/blazevpn/autoscript/master/resvis.sh"
-wget -O speedtest "https://raw.github.com/blazevpn/autoscript/master/speedtest_cli.py"
-wget -O about "https://raw.github.com/blazevpn/autoscript/master/about.sh"
+wget -O menu "https://github.com/silentriders/Debian7/master/menu.sh"
+wget -O usernew "https://raw.github.com/silentriders/Debian7/master/usernew.sh"
+wget -O trial "https://raw.github.com/silentriders/Debian7/master/trial.sh"
+wget -O hapus "https://raw.github.com/silentriders/Debian7/master/hapus.sh"
+wget -O login "https://raw.github.com/silentriders/Debian7/master/user-login.sh"
+wget -O member "https://raw.github.com/silentriders/Debian7/master/user-list.sh"
+wget -O resvis "https://raw.github.com/silentriders/Debian7/master/resvis.sh"
+wget -O speedtest "https://raw.github.com/silentriders/Debian7/master/speedtest_cli.py"
+wget -O about "https://raw.github.com/silentriders/Debian7/master/about.sh"
 echo "0 0 * * * root /usr/bin/reboot" > /etc/cron.d/reboot
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
 chmod +x menu
@@ -198,8 +198,8 @@ echo "menu (Senarai perintah)"  | tee -a log-install.txt
 echo "usernew (Membuat Akaun SSH)"  | tee -a log-install.txt
 echo "trial (Membuat Akaun Trial)"  | tee -a log-install.txt
 echo "hapus (Menghapus Akaun SSH)"  | tee -a log-install.txt
-echo "login (Semak login user)"  | tee -a log-install.txt
-echo "member (Senarai user)"  | tee -a log-install.txt
+echo "login (Melihat login user)"  | tee -a log-install.txt
+echo "member (Melihat daftar user)"  | tee -a log-install.txt
 echo "resvis (Restart Service dropbear, webmin, squid3, openvpn dan ssh)"  | tee -a log-install.txt
 echo "reboot (Reboot VPS)"  | tee -a log-install.txt
 echo "speedtest (Speedtest VPS)"  | tee -a log-install.txt
@@ -208,10 +208,10 @@ echo ""  | tee -a log-install.txt
 echo "Feature lain"  | tee -a log-install.txt
 echo "----------"  | tee -a log-install.txt
 echo "Webmin   : http://$MYIP:10000/"  | tee -a log-install.txt
-echo "Timezone : Asia/Malaysia (GMT +8)"  | tee -a log-install.txt
+echo "Timezone : Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
 echo "IPv6     : [off]"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "Modified by Aiman Amir"  | tee -a log-install.txt
+echo "Modified by SilentRider"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Log Instalasi --> /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
