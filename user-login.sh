@@ -50,4 +50,4 @@ echo "------------------------------------------------"
 
 echo "";
 
-echo "Mod by Aiman Amir";
+echo "Mod by SilentRider";
