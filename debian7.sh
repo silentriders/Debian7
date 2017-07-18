@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Script by Aiman Amir
-# Telegram : @NamiaKai
+# Script by SilentRider
+# WA : 089675000028
 # ==================================================
 # 
 
